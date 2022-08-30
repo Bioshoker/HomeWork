@@ -28,19 +28,16 @@ pattern = '([a-z]+)'
 print('List1 =', re.findall(pattern, line))
 
 # Решение без re
-symbol = list(map(lambda x: chr(x), list(range(65, 91))))  # Преобразуем список из кодов ANSI в список букв A-Z
-line_new = list(line)
-
-for i, element in enumerate(line_new[:]):
-       for element_2 in symbol:
-              if element == element_2:
-                     line_new[i] = ' '
-
-# Соединение списка в строку методом .join и разбиение строки по символу ' '
-stroka = ''.join(line_new).split(' ')
-
-line_str_2 = [i for i in stroka if i != '']
-print('Символы в нижнем регистре без использованием модуля re: \n', line_str_2)
+my_list = []
+a = ""
+for i in line:
+       if i.islower():
+              a+= i
+       if i.isupper():
+              if a!="":
+                     my_list.append(a)
+                     a = ""
+print(my_list)
 
 
 
@@ -126,12 +123,9 @@ print('Список без использованием модуля re: \n', li
 # Найдите и выведите самую длинную последовательность одинаковых цифр
 # в вышезаполненном файле.
 
+my_list = [str(random.randint(0, 9)) for _ in range(0, 2500)]
+my_list[0] = str(random.randint(1, 9))
 
-n = (random.randint(0, 9) for i in range(2500))
-str = ''.join(str(i) for i in n)
-
-with open('test.txt', 'w', ) as f:
-       f.write(str)
-       found = re.findall(r'[0-9]', str)
-       print(found)
-
+a = "".join(my_list)
+x = re.finditer(r"(\d)\1+", a)
+print(max([i.group(0) for i in x], key=len))
